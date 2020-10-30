@@ -1,0 +1,11 @@
+*{
+  padding: 0;
+  margin: 0;
+}
+li{
+    list-style:none;/*去掉默认列表符*/
+}
+a{
+    outline:none;/*去掉描边*/
+    text-decoration:none;/*去掉自带下划线*/
+}
