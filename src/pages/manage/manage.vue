@@ -55,6 +55,7 @@ export default {
     btn() {
       this.info.isshow = true;
       this.info.title = "添加角色";
+     this.$refs.add.empty()
     },
 
     // 编辑

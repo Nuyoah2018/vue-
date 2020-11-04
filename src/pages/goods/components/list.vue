@@ -5,14 +5,35 @@
       style="width: 100%;margin-bottom: 20px;"
       row-key="id"
       border
-      
       :tree-props="{children: 'children', hasChildren: 'hasChildren'}"
     >
-      <el-table-column prop="id" label="规格编号"></el-table-column>
-      <el-table-column prop="specsname" label="规格名称"></el-table-column>
-      <el-table-column label="规格属性">
+      <el-table-column prop="first_cateid" label="商品编号"></el-table-column>
+      <el-table-column prop="goodsname" label="商品名称"></el-table-column>
+      <el-table-column label="商品价格">
         <template slot-scope="scope">
-         <el-tag v-for="item in scope.row.attrs" :key="item">{{item}}</el-tag>
+         <span>{{scope.row.price}}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="市场价格">
+        <template slot-scope="scope">
+        <span>{{scope.row.market_price}}</span>
+        </template>
+      </el-table-column>
+       <el-table-column label="图片">
+        <template slot-scope="scope">
+        <img :src="$imgPre+scope.row.img" alt="">
+        </template>
+      </el-table-column>
+       <el-table-column label="是否新品">
+        <template slot-scope="scope">
+         <el-button type="primary" v-if="scope.row.isnew===1">是</el-button>
+          <el-button type="danger" v-else>否</el-button>
+        </template>
+      </el-table-column>
+       <el-table-column label="是否热卖">
+        <template slot-scope="scope">
+          <el-button type="primary" v-if="scope.row.ishot==1">是</el-button>
+          <el-button type="danger" v-else>否</el-button>
         </template>
       </el-table-column>
       
@@ -22,11 +43,11 @@
           <el-button type="info" v-else>禁用</el-button>
         </template>
       </el-table-column>
-      <el-table-column label="操作">
+      <el-table-column label="操作" width="180">
         <template slot-scope="scope">
           <el-button type="primary" @click="edit(scope.row.id)">编辑</el-button>
           <el-button type="danger" @click="del(scope.row.id)">删除</el-button>
-          
+        
         </template>
       </el-table-column>
     </el-table>
@@ -35,20 +56,20 @@
       page-size :设置一页有几条数据 ，默认是10 
       total:总数
       current-change :当前页码发生改变的时候触发  
-     
+      
     -->
     <el-pagination
         layout="prev, pager, next"
         :page-size="size"
-         @current-change="changePage"
+        @current-change="changePage"
         :total="total">
     </el-pagination>
   </div>
 </template>
 <script>
 import {mapActions,mapGetters} from "vuex"
-import {reqSpecDel} from "../../../uitls/request"
-import {successAlert} from "../../../uitls/alert"
+import {reqGoodsDel} from "../../../uitls/request"
+import {successAlert,errorAlert} from "../../../uitls/alert"
 export default {
 
   components: {},
@@ -58,26 +79,31 @@ export default {
     computed: {
     //   去仓库取一下需要的数据
       ...mapGetters({
-           list:"spec/list",
-           size:"spec/size",
-           total:"spec/total",
+           list:"goods/list",
+           size:"goods/size",
+           total:"goods/total",
            
       })
   },
   methods: {
       //   去仓库取一下需要的方法
       ...mapActions({
-       reqList:"spec/reqListAction",
-       reqTotalAction:"spec/reqTotalAction",//总数
-       changePageAction:"spec/changePageAction"//修改页码
+       reqList:"goods/reqListAction",
+       getTotalAction:"goods/reqTotalAction",//总数
+       changePageAction:"goods/changePageAction",//修改页码
+       getGoodsList: "goods/reqListAction",  //   商品的list
       }),
     //   修改页码
     changePage(page){
         this.changePageAction(page)
        
     },
-      // 点击删除
-    del(id) {
+    // 编辑
+    edit(id){
+        this.$emit("edit", id);
+    },
+    // 删除按钮
+       del(id) {
       this.$confirm("你确定要删除吗?", "提示", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
@@ -85,13 +111,14 @@ export default {
       })
         .then(() => {
           //   发起请求删除数据
-          reqSpecDel(id).then((res) => {
+          reqGoodsDel(id).then((res) => {
             if (res.data.code === 200) {
               successAlert("删除成功");
               // 刷新列表
+
               this.reqList();
               // 请求总数
-              this.reqTotalAction();
+              this.getTotalAction();
             }
           });
         })
@@ -102,17 +129,13 @@ export default {
           });
         });
     },
-    // 编辑
-    edit(id){
-        this.$emit("edit", id);
-    },
-
+    
   },
   mounted() {
        //   页面一进来就先刷新列表把数据请求过来
        this.reqList()
-    //    一进来页面就要请求总数
-    this.reqTotalAction()
+    // //    一进来页面就要请求总数
+    this.getTotalAction()
   },
 
 };

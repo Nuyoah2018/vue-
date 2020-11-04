@@ -50,7 +50,7 @@ export default {
     willUpdate(id) {
       this.info.isShow = true;
       this.info.title = "编辑菜单";
-      // add发起获取一条数据的请求
+      // 根据id,add发起获取一条数据的请求
       // 父组件要调用子组件的方法或属性
       this.$refs.add.getOne(id);
     },

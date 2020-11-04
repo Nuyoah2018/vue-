@@ -28,6 +28,7 @@ export default {
     btn() {
       this.info.isshow = true;
       this.info.title = "添加商品分类";
+      this.$refs.add.empty()//重置form
     },
     //点了编辑
     willUpdate(id) {

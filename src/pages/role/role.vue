@@ -40,7 +40,6 @@ export default {
     getInit() {
       reqRoleList().then((res) => {
         this.list=res.data.list
-        console.log(res);
       });
     },
     // 编辑

@@ -27,6 +27,7 @@ methods:{
     btn(){
         this.info.isshow = true;
       this.info.title = "添加规格";  
+       this.$refs.add.empty()
     },
     //点了编辑
     willUpdate(id) {

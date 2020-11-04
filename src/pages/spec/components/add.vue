@@ -57,14 +57,15 @@ export default {
     ...mapActions({
       //获取分类list
       reqList: "spec/reqListAction",
-      reqTotalAction: "spec/reqTotalAction",
+      reqTotalAction: "spec/reqTotalAction",//添加完成请求总数
     }),
     empty() {
       this.form = {
         specsname: "",
         attrs: "[]",
         status: 1,
-      };
+      }
+       this.attrArr=[{ val: "" }]
     },
     cancel() {
       this.info.isshow = false;
@@ -85,14 +86,16 @@ export default {
       // 点击添加发送请求
       reqSpecAdd(this.form).then((res) => {
         if (res.data.code == 200) {
-          // 弹框消失
-          this.cancel();
           //重置form
           this.empty();
+            // 弹框消失
+          this.cancel();
           // 弹出成功
           successAlert("添加成功");
           //刷新list
           this.reqList();
+          // 请求总数
+          this.reqTotalAction()
         }
       });
     },

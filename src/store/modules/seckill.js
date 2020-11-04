@@ -1,5 +1,5 @@
 import axios from "axios"
-import {reqCateList} from "../../uitls/request"
+import {reqseckilList} from "../../uitls/request"
 // 数据
 const state = {
     list: []//分类的list初始值，空数组
@@ -14,10 +14,10 @@ const mutations = {
 // 方法,处理逻辑
 const actions = {
     // context就是仓库本身，store
-        reqListAction(context){
+        reqSeckillListAction(context){
     //  一进来页面就要发起获取list的请求
     // 是否需要返回树形结构  是-true,  否：不传(根据后台文档接口)
-    reqCateList({istree:true}).then(res=>{
+    reqseckilList().then(res=>{
         if(res.data.code==200){
             state.list=res.data.list
             // 加一个判断方法

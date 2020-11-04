@@ -50,6 +50,16 @@ export default {
     };
   },
   methods: {
+     empty() {
+      this.form = {
+
+        uid:"",
+        roleid: "",
+        username: "",
+        password: "",
+        status: 1,
+      }
+     },
     end() {
       this.info.isshow = false;
     },
@@ -62,6 +72,8 @@ export default {
           this.$emit("init");
           // 关闭弹窗
           this.end();
+          // 重置form
+          this.empty()
           // 弹出成功
           successAlert("成功添加")
         }else{

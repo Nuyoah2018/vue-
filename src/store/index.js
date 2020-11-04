@@ -6,6 +6,10 @@ import {actions} from "./actions"
 import {state,mutations,getters} from "./mutations"
 import cate from "./modules/cate"
 import spec from "./modules/spec"
+import goods from "./modules/goods"
+import member from "./modules/member"
+import banner from "./modules/banner"
+import seckill from "./modules/seckill"
 // 第一种方式导出状态层
 const store=new Vuex.Store({
     state,
@@ -15,7 +19,11 @@ const store=new Vuex.Store({
     // 模块
     modules:{
         cate,
-        spec
+        spec,
+        goods,
+        member,
+        banner,
+        seckill
     }
 })
 

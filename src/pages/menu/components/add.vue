@@ -57,7 +57,11 @@ import { indexRoutes } from "../../../router/index";
 import axios from "axios";
 import qs from "qs";
 import { successAlert, errorAlert } from "../../../uitls/alert";
-import { reqMenuAdd,reqMenuDetail,reqMenuUpdate} from "../../../uitls/request";
+import {
+  reqMenuAdd,
+  reqMenuDetail,
+  reqMenuUpdate,
+} from "../../../uitls/request";
 export default {
   props: ["info", "list"], //接收父级传的参数
   components: {},
